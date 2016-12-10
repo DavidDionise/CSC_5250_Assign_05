@@ -4,11 +4,14 @@
  * as a guideline for developing your own functions.
  */
 
-#include "phone_book.h"
+#include <stdio.h>
+#include <string.h>
 
+#include "phone_book.h"
+#include "util.h"
 
 void
-phone_book_prog_1( char* host )
+phone_book_prog_1( char* host, char* command )
 {
 	CLIENT *clnt;
 	r_val  *result_1;
@@ -28,42 +31,95 @@ phone_book_prog_1( char* host )
 		clnt_pcreateerror(host);
 		exit(1);
 	}
-	result_1 = add_to_database_1(&add_to_database_1_arg, clnt);
-	if (result_1 == NULL) {
-		clnt_perror(clnt, "call failed:");
+	if(strcmp(command, "add")) {
+		result_1 = add_to_database_1(&add_to_database_1_arg, clnt);
+		if (result_1 == NULL) {
+			clnt_perror(clnt, "call failed:");
+		}
+		else {
+			printf("result = %s\n", result_1->r_list->head->name);
+		}
 	}
-	result_2 = remove_from_database_1(&remove_from_database_1_arg, clnt);
-	if (result_2 == NULL) {
-		clnt_perror(clnt, "call failed:");
+	else if(strcmp(command, "delete")) {
+		result_2 = remove_from_database_1(&remove_from_database_1_arg, clnt);
+		if (result_2 == NULL) {
+			clnt_perror(clnt, "call failed:");
+		}
 	}
-	result_3 = lookup_name_1(&lookup_name_1_arg, clnt);
-	if (result_3 == NULL) {
-		clnt_perror(clnt, "call failed:");
+	else if(strcmp(command, "query")) {
+		result_3 = lookup_name_1(&lookup_name_1_arg, clnt);
+		if (result_3 == NULL) {
+			clnt_perror(clnt, "call failed:");
+		}
 	}
-	result_4 = list_1((void*)&list_1_arg, clnt);
-	if (result_4 == NULL) {
-		clnt_perror(clnt, "call failed:");
+	else if(strcmp(command, "list")) {
+		result_4 = list_1((void*)&list_1_arg, clnt);
+		if (result_4 == NULL) {
+			clnt_perror(clnt, "call failed:");
+		}
 	}
-	result_5 = quit_1((void*)&quit_1_arg, clnt);
-	if (result_5 == NULL) {
-		clnt_perror(clnt, "call failed:");
+	else if(strcmp(command, "quit")) {
+		result_5 = quit_1((void*)&quit_1_arg, clnt);
+		if (result_5 == NULL) {
+			clnt_perror(clnt, "call failed:");
+		}
+		else {
+			clnt_destroy( clnt );
+		}
 	}
-	result_6 = terminate_1((void*)&terminate_1_arg, clnt);
-	if (result_6 == NULL) {
-		clnt_perror(clnt, "call failed:");
+	else if(strcmp(command, "terminate")) {
+		result_6 = terminate_1((void*)&terminate_1_arg, clnt);
+		if (result_6 == NULL) {
+			clnt_perror(clnt, "call failed:");
+		}
+		else {
+			clnt_destroy( clnt );
+		}
 	}
-	clnt_destroy( clnt );
+	else {
+		printf("Invalid Command");
+	}
 }
 
 
-main( int argc, char* argv[] )
+int main( int argc, char* argv[] )
 {
 	char *host;
+	char *command;
+	int quit_program = 0;
 
 	if(argc < 2) {
 		printf("usage: %s server_host\n", argv[0]);
 		exit(1);
 	}
 	host = argv[1];
-	phone_book_prog_1( host );
+
+	puts("Enter a command to use the phone book : ");
+
+	while(1) {
+		printf("\n> ");
+
+		command = getLine();
+
+		phone_book_prog_1( host, command );
+	}
+
+	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

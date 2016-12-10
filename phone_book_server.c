@@ -4,17 +4,30 @@
  * as a guideline for developing your own functions.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "phone_book.h"
 
 r_val *
 add_to_database_1_svc(entry *argp, struct svc_req *rqstp)
 {
+	static r_val  result;	
 
-	static r_val  result;
+	entry e1;
 
-	/*
-	 * insert server code here
-	 */
+	e1.name = (char*)malloc(sizeof(char) * 10);
+	strcpy(e1.name, "david");
+
+	e1.number = (char*)malloc(sizeof(char) * 10);
+	strcpy(e1.number, "1234");
+
+	e1.next = NULL;
+
+	result.r_num = 0;
+	result.r_list->head = &e1;
+	result.r_error = NULL;
 
 	return(&result);
 }
@@ -22,12 +35,9 @@ add_to_database_1_svc(entry *argp, struct svc_req *rqstp)
 r_val *
 remove_from_database_1_svc(char **argp, struct svc_req *rqstp)
 {
-
 	static r_val  result;
 
-	/*
-	 * insert server code here
-	 */
+	printf("in remove");
 
 	return(&result);
 }
@@ -35,12 +45,9 @@ remove_from_database_1_svc(char **argp, struct svc_req *rqstp)
 r_val *
 lookup_name_1_svc(char **argp, struct svc_req *rqstp)
 {
-
 	static r_val  result;
 
-	/*
-	 * insert server code here
-	 */
+	printf("in lookup");
 
 	return(&result);
 }
@@ -48,12 +55,9 @@ lookup_name_1_svc(char **argp, struct svc_req *rqstp)
 r_val *
 list_1_svc(void *argp, struct svc_req *rqstp)
 {
-
 	static r_val  result;
 
-	/*
-	 * insert server code here
-	 */
+	printf("in list");
 
 	return(&result);
 }
@@ -61,12 +65,9 @@ list_1_svc(void *argp, struct svc_req *rqstp)
 int *
 quit_1_svc(void *argp, struct svc_req *rqstp)
 {
-
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	printf("in quit");
 
 	return(&result);
 }
@@ -74,12 +75,9 @@ quit_1_svc(void *argp, struct svc_req *rqstp)
 int *
 terminate_1_svc(void *argp, struct svc_req *rqstp)
 {
-
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	printf("in terminate");
 
 	return(&result);
 }
