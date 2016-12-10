@@ -26,7 +26,7 @@ phone_book_prog_1( char* host, char* command )
 	char*  quit_1_arg;
 	int  *result_6;
 	char*  terminate_1_arg;
-	clnt = clnt_create(host, PHONE_BOOK_PROG, PHONE_BOOK_VERS, "udp");
+	clnt = clnt_create(host, PHONE_BOOK_PROG, PHONE_BOOK_VERS, "upd");
 	if (clnt == NULL) {
 		clnt_pcreateerror(host);
 		exit(1);
