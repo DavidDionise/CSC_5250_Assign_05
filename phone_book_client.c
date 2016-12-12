@@ -4,6 +4,7 @@
  * as a guideline for developing your own functions.
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -26,12 +27,20 @@ phone_book_prog_1( char* host, char* command )
 	char*  quit_1_arg;
 	int  *result_6;
 	char*  terminate_1_arg;
-	clnt = clnt_create(host, PHONE_BOOK_PROG, PHONE_BOOK_VERS, "upd");
+	clnt = clnt_create(host, PHONE_BOOK_PROG, PHONE_BOOK_VERS, "udp");
 	if (clnt == NULL) {
 		clnt_pcreateerror(host);
 		exit(1);
 	}
 	if(strcmp(command, "add")) {
+		add_to_database_1_arg.name = malloc(sizeof(char) * 32);
+		strcpy(add_to_database_1_arg.name, "David");
+
+		add_to_database_1_arg.number = malloc(sizeof(char) * 32);
+		strcpy(add_to_database_1_arg.name, "12345");
+
+		add_to_database_1_arg.next = NULL;
+
 		result_1 = add_to_database_1(&add_to_database_1_arg, clnt);
 		if (result_1 == NULL) {
 			clnt_perror(clnt, "call failed:");

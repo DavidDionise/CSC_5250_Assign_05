@@ -15,9 +15,12 @@ r_val *
 add_to_database_1_svc(entry *argp, struct svc_req *rqstp)
 {
 	static r_val  result;
-	FILE *fp = fopen("database.txt", "a");
 
-	fprintf(fp, "%s# %s\n", argp->name, argp->number);
+	printf("args = %s and %s\n", argp->name, argp->number);
+
+	// FILE *fp = fopen("database.txt", "a");
+
+	// fprintf(fp, "%s# %s\n", argp->name, argp->number);
 
 	result.r_num = 1;
 	result.r_list = NULL;
