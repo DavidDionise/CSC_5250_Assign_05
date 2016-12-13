@@ -26,6 +26,20 @@ bool_t xdr_entry();
 #endif /* Old Style C */
 
 
+struct r_val {
+	int num;
+	char *message;
+};
+typedef struct r_val r_val;
+#ifdef __cplusplus
+extern "C" bool_t xdr_r_val(XDR *, r_val*);
+#elif __STDC__
+extern  bool_t xdr_r_val(XDR *, r_val*);
+#else /* Old Style C */
+bool_t xdr_r_val();
+#endif /* Old Style C */
+
+
 struct linked_list {
 	struct entry *head;
 };
@@ -36,21 +50,6 @@ extern "C" bool_t xdr_linked_list(XDR *, linked_list*);
 extern  bool_t xdr_linked_list(XDR *, linked_list*);
 #else /* Old Style C */
 bool_t xdr_linked_list();
-#endif /* Old Style C */
-
-
-struct r_val {
-	int r_num;
-	linked_list *r_list;
-	char *r_error;
-};
-typedef struct r_val r_val;
-#ifdef __cplusplus
-extern "C" bool_t xdr_r_val(XDR *, r_val*);
-#elif __STDC__
-extern  bool_t xdr_r_val(XDR *, r_val*);
-#else /* Old Style C */
-bool_t xdr_r_val();
 #endif /* Old Style C */
 
 

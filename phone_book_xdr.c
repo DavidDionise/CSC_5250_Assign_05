@@ -19,23 +19,21 @@ xdr_entry(XDR *xdrs, entry *objp)
 }
 
 bool_t
-xdr_linked_list(XDR *xdrs, linked_list *objp)
+xdr_r_val(XDR *xdrs, r_val *objp)
 {
 
-	if (!xdr_pointer(xdrs, (char **)&objp->head, sizeof(entry), (xdrproc_t)xdr_entry))
+	if (!xdr_int(xdrs, &objp->num))
+		return (FALSE);
+	if (!xdr_string(xdrs, &objp->message, 256))
 		return (FALSE);
 	return (TRUE);
 }
 
 bool_t
-xdr_r_val(XDR *xdrs, r_val *objp)
+xdr_linked_list(XDR *xdrs, linked_list *objp)
 {
 
-	if (!xdr_int(xdrs, &objp->r_num))
-		return (FALSE);
-	if (!xdr_pointer(xdrs, (char **)&objp->r_list, sizeof(linked_list), (xdrproc_t)xdr_linked_list))
-		return (FALSE);
-	if (!xdr_string(xdrs, &objp->r_error, 128))
+	if (!xdr_pointer(xdrs, (char **)&objp->head, sizeof(entry), (xdrproc_t)xdr_entry))
 		return (FALSE);
 	return (TRUE);
 }

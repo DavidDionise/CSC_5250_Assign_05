@@ -7,25 +7,40 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 #include "phone_book.h"
-#include "util.h"
+#include "server_util.h"
 
 r_val *
 add_to_database_1_svc(entry *argp, struct svc_req *rqstp)
 {
 	static r_val  result;
+	char phone_book_entry[256];
 
-	printf("args = %s and %s\n", argp->name, argp->number);
+	printf("args %s, %s\n", argp->name, argp->number);
+	FILE *fp = fopen("./database.txt", "a");
 
-	// FILE *fp = fopen("database.txt", "a");
+	strcpy(phone_book_entry, argp->name);
+	strcat(phone_book_entry, "# ");
+	strcat(phone_book_entry, argp->number);
+	strcat(phone_book_entry, "\n");
 
-	// fprintf(fp, "%s# %s\n", argp->name, argp->number);
+	printf("entry : %s\n", phone_book_entry);
 
-	result.r_num = 1;
-	result.r_list = NULL;
-	result.r_error = NULL;
+	if(fputs(phone_book_entry, fp) < 0) {
+		perror("Error writing to file");
 
+		result.num = -1;
+		result.message = NULL;
+	}
+	else {
+		result.num = ++COUNT;
+		result.message = malloc(sizeof(char) * 64);
+		strcpy(result.message, "Working");
+	}
+
+	fclose(fp);
 	return(&result);
 }
 
@@ -35,9 +50,7 @@ remove_from_database_1_svc(char **argp, struct svc_req *rqstp)
 
 	static r_val  result;
 
-	/*
-	 * insert server code here
-	 */
+	
 
 	return(&result);
 }
